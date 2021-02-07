@@ -45,28 +45,66 @@ public class ProductService {
         return thirdPartPrices;
     }
 
-    public void mapProductDetailsDto(ProductDetailsDto productDetailsDto){
+    public void mapProductDetailsDto(ProductDetailsDto productDetailsDto) {
 
         productInfo.setAsin(productDetailsDto.getAsin());
         productInfo.setCreatedAt(productDetailsDto.getCreatedAt());
         productInfo.setCurrencySymbol(productDetailsDto.getCurrencySymbol());
         productInfo.setTitle(productDetailsDto.getTitle());
 
-        amazonPrices.setCurrentPriceAmazon(productDetailsDto.getCurrentPriceAmazon().getPrice());
-        amazonPrices.setDateCurrentPrice(productDetailsDto.getCurrentPriceAmazon().getCreatedAt());
 
-        amazonPrices.setHighestPriceAmazon(productDetailsDto.getHighestPriceAmazon().getPrice());
-        amazonPrices.setDateHighestPriceAmazon(productDetailsDto.getHighestPriceAmazon().getCreatedAt());
 
-        amazonPrices.setLowestPricingAmazon(productDetailsDto.getLowestPricingAmazon().getPrice());
-        amazonPrices.setDateLowestPricingAmazon(productDetailsDto.getLowestPricingAmazon().getCreatedAt());
+        if(productDetailsDto.getCurrentPriceAmazon().getPrice() == 0.0){
+            amazonPrices.setCurrentPriceAmazon(null);
+            amazonPrices.setDateCurrentPrice(null);
+        }
+        else {
+            amazonPrices.setCurrentPriceAmazon(productDetailsDto.getCurrentPriceAmazon().getPrice());
+            amazonPrices.setDateCurrentPrice(productDetailsDto.getCurrentPriceAmazon().getCreatedAt());
+        }
 
-       thirdPartPrices.setDateHighestPriceThirdPart(productDetailsDto.getHighestPriceThirdPart().getCreatedAt());
-       thirdPartPrices.setHighestPriceThirdPart(productDetailsDto.getHighestPriceThirdPart().getPrice());
+        if(productDetailsDto.getHighestPriceAmazon().getPrice()== 0.0){
+            amazonPrices.setHighestPriceAmazon(null);
+            amazonPrices.setDateHighestPriceAmazon(null);
+        }
+        else {
+            amazonPrices.setHighestPriceAmazon(productDetailsDto.getHighestPriceAmazon().getPrice());
+            amazonPrices.setDateHighestPriceAmazon(productDetailsDto.getHighestPriceAmazon().getCreatedAt());
+        }
 
-       thirdPartPrices.setCurrentPriceThirdPart(productDetailsDto.getCurrentPriceThirdPart().getPrice());
-       thirdPartPrices.setDateCurrentPriceThirdPart(productDetailsDto.getCurrentPriceThirdPart().getCreatedAt());
-       thirdPartPrices.setLowestPricingThirdPart(productDetailsDto.getLowestPricingThirdPart().getPrice());
-       thirdPartPrices.setDateLowestPricingThirdPart(productDetailsDto.getLowestPricingThirdPart().getCreatedAt());
+        if(productDetailsDto.getLowestPricingAmazon().getPrice() ==0.0){
+            amazonPrices.setLowestPricingAmazon(null);
+            amazonPrices.setDateLowestPricingAmazon(null);
+        }
+        else {
+            amazonPrices.setLowestPricingAmazon(productDetailsDto.getLowestPricingAmazon().getPrice());
+            amazonPrices.setDateLowestPricingAmazon(productDetailsDto.getLowestPricingAmazon().getCreatedAt());
+        }
+
+        if(productDetailsDto.getHighestPriceThirdPart().getPrice() == 0.0){
+            thirdPartPrices.setHighestPriceThirdPart(null);
+            thirdPartPrices.setDateHighestPriceThirdPart(null);
+        }
+        else {
+            thirdPartPrices.setDateHighestPriceThirdPart(productDetailsDto.getHighestPriceThirdPart().getCreatedAt());
+            thirdPartPrices.setHighestPriceThirdPart(productDetailsDto.getHighestPriceThirdPart().getPrice());
+        }
+
+        if(productDetailsDto.getCurrentPriceThirdPart().getPrice() == 0.0){
+            thirdPartPrices.setCurrentPriceThirdPart(null);
+            thirdPartPrices.setDateCurrentPriceThirdPart(null);
+        }
+        else {
+            thirdPartPrices.setCurrentPriceThirdPart(productDetailsDto.getCurrentPriceThirdPart().getPrice());
+            thirdPartPrices.setDateCurrentPriceThirdPart(productDetailsDto.getCurrentPriceThirdPart().getCreatedAt());
+        }
+        if(productDetailsDto.getLowestPricingThirdPart().getPrice()==0.0){
+            thirdPartPrices.setLowestPricingThirdPart(null);
+            thirdPartPrices.setDateLowestPricingThirdPart(null);
+        }
+        else {
+            thirdPartPrices.setLowestPricingThirdPart(productDetailsDto.getLowestPricingThirdPart().getPrice());
+            thirdPartPrices.setDateLowestPricingThirdPart(productDetailsDto.getLowestPricingThirdPart().getCreatedAt());
+        }
     }
 }

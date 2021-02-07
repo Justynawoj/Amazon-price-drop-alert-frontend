@@ -6,6 +6,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.H5;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
@@ -36,13 +37,13 @@ public class MainView extends VerticalLayout {
 
         getInfo.addClickListener(e -> {
             grid.asSingleSelect().clear();
-            form.setProduct(new Request());
+            form.setRequest(new Request());
         });
 
         HorizontalLayout toolbar = new HorizontalLayout(getInfo);
         HorizontalLayout mainContent = new HorizontalLayout(form,grid);
-        VerticalLayout verticalLayout = new VerticalLayout(grid2);
-        VerticalLayout verticalLayout2 = new VerticalLayout(grid3);
+        VerticalLayout verticalLayout = new VerticalLayout( new H5("This is the price charged for New products when Amazon itself is the seller"),grid2);
+        VerticalLayout verticalLayout2 = new VerticalLayout(new H5("This is the price charged by third party merchants for items in New condition"),grid3);
         mainContent.setSizeFull();
         verticalLayout.setSizeFull();
         verticalLayout2.setSizeFull();
@@ -52,7 +53,8 @@ public class MainView extends VerticalLayout {
         grid.addColumn("asin");
         grid.addColumn("createdAt");
         grid.addColumn("currencySymbol");
-        grid.getColumnByKey("title").setWidth("400px");
+        grid.getColumnByKey("title").setWidth("600px");
+        grid.getColumnByKey("currencySymbol").setWidth("40px");
 
         grid.setSizeFull();
         grid2.setSizeFull();
@@ -60,13 +62,13 @@ public class MainView extends VerticalLayout {
 
         add(toolbar, mainContent,verticalLayout,verticalLayout2);
         //ukrywa formularz
-        form.setProduct(null);
+        form.setRequest(null);
         setSizeFull();
 
         refresh();
 
         grid.asSingleSelect().addValueChangeListener(
-                event -> form.setProduct(
+                event -> form.setRequest(
                 (Request) grid.asSingleSelect().getValue()));
     }
 

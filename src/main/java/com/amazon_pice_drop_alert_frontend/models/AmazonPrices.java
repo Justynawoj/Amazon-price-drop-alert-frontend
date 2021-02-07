@@ -2,18 +2,18 @@ package com.amazon_pice_drop_alert_frontend.models;
 
 public class AmazonPrices {
 
-    private double currentPriceAmazon;
+    private Double currentPriceAmazon;
     private String dateCurrentPrice;
-    private double highestPriceAmazon;
+    private Double highestPriceAmazon;
     private String dateHighestPriceAmazon;
-    private double lowestPricingAmazon;
+    private Double lowestPricingAmazon;
     private String dateLowestPricingAmazon;
 
-    public double getCurrentPriceAmazon() {
+    public Double getCurrentPriceAmazon() {
         return currentPriceAmazon;
     }
 
-    public void setCurrentPriceAmazon(double currentPriceAmazon) {
+    public void setCurrentPriceAmazon(Double currentPriceAmazon) {
         this.currentPriceAmazon = currentPriceAmazon;
     }
 
@@ -25,11 +25,11 @@ public class AmazonPrices {
         this.dateCurrentPrice = dateCurrentPrice;
     }
 
-    public double getHighestPriceAmazon() {
+    public Double getHighestPriceAmazon() {
         return highestPriceAmazon;
     }
 
-    public void setHighestPriceAmazon(double highestPriceAmazon) {
+    public void setHighestPriceAmazon(Double highestPriceAmazon) {
         this.highestPriceAmazon = highestPriceAmazon;
     }
 
@@ -41,11 +41,11 @@ public class AmazonPrices {
         this.dateHighestPriceAmazon = dateHighestPriceAmazon;
     }
 
-    public double getLowestPricingAmazon() {
+    public Double getLowestPricingAmazon() {
         return lowestPricingAmazon;
     }
 
-    public void setLowestPricingAmazon(double lowestPricingAmazon) {
+    public void setLowestPricingAmazon(Double lowestPricingAmazon) {
         this.lowestPricingAmazon = lowestPricingAmazon;
     }
 
