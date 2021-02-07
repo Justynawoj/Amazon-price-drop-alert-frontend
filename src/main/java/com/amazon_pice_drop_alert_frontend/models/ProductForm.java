@@ -36,9 +36,10 @@ public class ProductForm extends FormLayout {
         Request request = binder.getBean();
         service.sendRequestToBackend(request.getUrl(), request.getCountryType());
         mainView.refresh();
+        setRequest(null);
     }
 
-    public void setProduct(Request request) {
+    public void setRequest(Request request) {
         binder.setBean(request);
 
         if (request == null) {

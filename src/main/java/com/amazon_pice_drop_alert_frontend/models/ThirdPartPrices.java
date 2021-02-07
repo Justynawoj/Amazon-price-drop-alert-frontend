@@ -2,18 +2,18 @@ package com.amazon_pice_drop_alert_frontend.models;
 
 public class ThirdPartPrices {
 
-    private double currentPriceThirdPart;
+    private Double currentPriceThirdPart;
     private String dateCurrentPriceThirdPart;
-    private double highestPriceThirdPart;
+    private Double highestPriceThirdPart;
     private String dateHighestPriceThirdPart;
-    private double lowestPricingThirdPart;
+    private Double lowestPricingThirdPart;
     private String dateLowestPricingThirdPart;
 
-    public double getCurrentPriceThirdPart() {
+    public Double getCurrentPriceThirdPart() {
         return currentPriceThirdPart;
     }
 
-    public void setCurrentPriceThirdPart(double currentPriceThirdPart) {
+    public void setCurrentPriceThirdPart(Double currentPriceThirdPart) {
         this.currentPriceThirdPart = currentPriceThirdPart;
     }
 
@@ -25,11 +25,11 @@ public class ThirdPartPrices {
         this.dateCurrentPriceThirdPart = dateCurrentPriceThirdPart;
     }
 
-    public double getHighestPriceThirdPart() {
+    public Double getHighestPriceThirdPart() {
         return highestPriceThirdPart;
     }
 
-    public void setHighestPriceThirdPart(double highestPriceThirdPart) {
+    public void setHighestPriceThirdPart(Double highestPriceThirdPart) {
         this.highestPriceThirdPart = highestPriceThirdPart;
     }
 
@@ -41,11 +41,11 @@ public class ThirdPartPrices {
         this.dateHighestPriceThirdPart = dateHighestPriceThirdPart;
     }
 
-    public double getLowestPricingThirdPart() {
+    public Double getLowestPricingThirdPart() {
         return lowestPricingThirdPart;
     }
 
-    public void setLowestPricingThirdPart(double lowestPricingThirdPart) {
+    public void setLowestPricingThirdPart(Double lowestPricingThirdPart) {
         this.lowestPricingThirdPart = lowestPricingThirdPart;
     }
 
