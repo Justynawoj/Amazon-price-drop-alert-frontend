@@ -1,9 +1,6 @@
 package com.amazon_pice_drop_alert_frontend.views;
 
-import com.amazon_pice_drop_alert_frontend.models.Country;
-import com.amazon_pice_drop_alert_frontend.models.ProductDetailsDto;
-import com.amazon_pice_drop_alert_frontend.models.ProductForm;
-import com.amazon_pice_drop_alert_frontend.models.Request;
+import com.amazon_pice_drop_alert_frontend.models.*;
 import com.amazon_pice_drop_alert_frontend.services.ProductService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -19,8 +16,9 @@ import com.vaadin.flow.component.textfield.TextField;
 public class MainView extends VerticalLayout {
 
     public static final String BACKEND_URL = "http://localhost:8080/";
-    private Grid grid = new Grid<>(ProductDetailsDto.class);
-    private Grid grid2 = new Grid<>(ProductDetailsDto.class);
+    private Grid grid = new Grid<>(ProductInfo.class, false);
+    private Grid grid2 = new Grid<>(AmazonPrices.class);
+    private Grid grid3 = new Grid<>(ThirdPartPrices.class);
 
     private TextField url = new TextField("url");
     private ComboBox<Country> countryComboBox = new ComboBox<>("Country");
@@ -44,12 +42,23 @@ public class MainView extends VerticalLayout {
         HorizontalLayout toolbar = new HorizontalLayout(getInfo);
         HorizontalLayout mainContent = new HorizontalLayout(form,grid);
         VerticalLayout verticalLayout = new VerticalLayout(grid2);
+        VerticalLayout verticalLayout2 = new VerticalLayout(grid3);
         mainContent.setSizeFull();
         verticalLayout.setSizeFull();
+        verticalLayout2.setSizeFull();
+
+        grid.removeAllColumns();
+        grid.addColumn("title");
+        grid.addColumn("asin");
+        grid.addColumn("createdAt");
+        grid.addColumn("currencySymbol");
+        grid.getColumnByKey("title").setWidth("400px");
+
         grid.setSizeFull();
         grid2.setSizeFull();
+        grid3.setSizeFull();
 
-        add(toolbar, mainContent,verticalLayout);
+        add(toolbar, mainContent,verticalLayout,verticalLayout2);
         //ukrywa formularz
         form.setProduct(null);
         setSizeFull();
@@ -62,7 +71,9 @@ public class MainView extends VerticalLayout {
     }
 
     public void refresh() {
-        grid.setItems(service.getProductDetailsDto());
+        grid.setItems(service.getProductInfo());
+        grid2.setItems(service.getAmazonPrices());
+        grid3.setItems(service.getThirdPartPrices());
     }
 
 }
