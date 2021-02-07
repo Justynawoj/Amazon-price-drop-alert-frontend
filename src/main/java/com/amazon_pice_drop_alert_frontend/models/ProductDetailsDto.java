@@ -14,7 +14,12 @@ public class ProductDetailsDto {
     private PriceDetailsDto lowestPricingThirdPart;
 
     public ProductDetailsDto(String asin, String createdAt, String currencySymbol, String title,
-                             PriceDetailsDto currentPriceAmazon, PriceDetailsDto highestPriceAmazon, PriceDetailsDto lowestPricingAmazon, PriceDetailsDto currentPriceThirdPart, PriceDetailsDto highestPriceThirdPart, PriceDetailsDto lowestPricingThirdPart) {
+                             PriceDetailsDto currentPriceAmazon,
+                             PriceDetailsDto highestPriceAmazon,
+                             PriceDetailsDto lowestPricingAmazon,
+                             PriceDetailsDto currentPriceThirdPart,
+                             PriceDetailsDto highestPriceThirdPart,
+                             PriceDetailsDto lowestPricingThirdPart) {
         this.asin = asin;
         this.createdAt = createdAt;
         this.currencySymbol = currencySymbol;
