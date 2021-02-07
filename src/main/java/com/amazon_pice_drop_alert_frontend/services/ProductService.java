@@ -33,6 +33,18 @@ public class ProductService {
         return productDetailsDto;
     }
 
+    public ProductInfo getProductInfo() {
+        return productInfo;
+    }
+
+    public AmazonPrices getAmazonPrices() {
+        return amazonPrices;
+    }
+
+    public ThirdPartPrices getThirdPartPrices() {
+        return thirdPartPrices;
+    }
+
     public void mapProductDetailsDto(ProductDetailsDto productDetailsDto){
 
         productInfo.setAsin(productDetailsDto.getAsin());
