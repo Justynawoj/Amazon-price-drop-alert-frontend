@@ -27,7 +27,10 @@ public class MainView extends VerticalLayout {
     ProductService service = ProductService.getInstance();
 
     private ProductForm form = new ProductForm(this);
-    Button getInfo = new Button("Get Info");
+    private AlertForm alertForm = new AlertForm(this);
+
+    Button getInfo = new Button("Get Price Info");
+    Button getPriceAlert = new Button("Get Price Alert");
 
 
     public MainView() {
@@ -37,11 +40,20 @@ public class MainView extends VerticalLayout {
 
         getInfo.addClickListener(e -> {
             grid.asSingleSelect().clear();
-            form.setRequest(new Request());
+            form.setRequest(new PriceRequest());
         });
 
-        HorizontalLayout toolbar = new HorizontalLayout(getInfo);
-        HorizontalLayout mainContent = new HorizontalLayout(form,grid);
+        add(getPriceAlert);
+
+        getPriceAlert.addClickListener(event -> {
+            grid.asSingleSelect().clear();
+            alertForm.setAlertRequest(new AlertRequest());
+        });
+
+
+
+        HorizontalLayout toolbar = new HorizontalLayout(getInfo,getPriceAlert);
+        HorizontalLayout mainContent = new HorizontalLayout(form,alertForm, grid);
         VerticalLayout verticalLayout = new VerticalLayout( new H5("This is the price charged for New products when Amazon itself is the seller"),grid2);
         VerticalLayout verticalLayout2 = new VerticalLayout(new H5("This is the price charged by third party merchants for items in New condition"),grid3);
         mainContent.setSizeFull();
@@ -63,13 +75,18 @@ public class MainView extends VerticalLayout {
         add(toolbar, mainContent,verticalLayout,verticalLayout2);
         //ukrywa formularz
         form.setRequest(null);
+        //
         setSizeFull();
 
         refresh();
 
         grid.asSingleSelect().addValueChangeListener(
                 event -> form.setRequest(
-                (Request) grid.asSingleSelect().getValue()));
+                (PriceRequest) grid.asSingleSelect().getValue()));
+
+        grid.asSingleSelect().addValueChangeListener(
+                event -> alertForm.setAlertRequest(
+                        (AlertRequest) grid.asSingleSelect().getValue()));
     }
 
     public void refresh() {

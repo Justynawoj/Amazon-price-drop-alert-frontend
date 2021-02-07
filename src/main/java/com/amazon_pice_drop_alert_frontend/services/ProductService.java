@@ -29,6 +29,13 @@ public class ProductService {
         mapProductDetailsDto(productDetailsDto);
     }
 
+    public void sendAlertRequestToBackend(AlertRequest alertRequest){
+      //  String url = "http://localhost:8080/v1/request?url=" +amazonUrl+"&country="+country+"&price="+price+"&email="+email;
+        String url = "http://localhost:8080/v1/request";
+        restTemplate.postForObject(url,alertRequest,AlertRequest.class);
+
+    }
+
     public ProductDetailsDto getProductDetailsDto() {
         return productDetailsDto;
     }
