@@ -32,4 +32,20 @@ public class AlertRequest {
     public String getEmail() {
         return email;
     }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public void setCountry(Country country) {
+        this.country = country;
+    }
+
+    public void setRequestedPrice(String requestedPrice) {
+        this.requestedPrice = requestedPrice;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }

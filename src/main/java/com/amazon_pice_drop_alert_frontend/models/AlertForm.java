@@ -24,7 +24,7 @@ public class AlertForm extends FormLayout {
 
     private ProductService service = ProductService.getInstance();
 
-    public AlertForm(MainView mainView){
+    public AlertForm(MainView mainView) {
         this.mainView = mainView;
         country.setItems(Country.values());
         HorizontalLayout layout = new HorizontalLayout(getAlertButton);
@@ -35,19 +35,17 @@ public class AlertForm extends FormLayout {
         getAlertButton.addClickListener(event -> sendAlertRequest());
     }
 
-    private void sendAlertRequest(){
+    private void sendAlertRequest() {
         AlertRequest alertRequest = binder.getBean();
-   //     service.sendAlertRequestToBackend(alertRequest.getUrl(),
-    //            alertRequest.getCountry(),alertRequest.getRequestedPrice(),alertRequest.getEmail());
-
         service.sendAlertRequestToBackend(alertRequest);
         setAlertRequest(null);
 
     }
-    public void setAlertRequest(AlertRequest alertRequest){
+
+    public void setAlertRequest(AlertRequest alertRequest) {
         binder.setBean(alertRequest);
 
-        if(alertRequest == null){
+        if (alertRequest == null) {
             setVisible(false);
         } else {
             setVisible(true);
