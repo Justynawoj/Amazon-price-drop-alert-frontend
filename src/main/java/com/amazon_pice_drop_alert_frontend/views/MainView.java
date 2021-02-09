@@ -3,79 +3,104 @@ package com.amazon_pice_drop_alert_frontend.views;
 import com.amazon_pice_drop_alert_frontend.models.*;
 import com.amazon_pice_drop_alert_frontend.services.ProductService;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.H5;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.component.textfield.TextField;
 
 
 @Route
 public class MainView extends VerticalLayout {
 
     public static final String BACKEND_URL = "http://localhost:8080/";
-    private Grid grid = new Grid<>(ProductInfo.class, false);
-    private Grid grid2 = new Grid<>(AmazonPrices.class);
-    private Grid grid3 = new Grid<>(ThirdPartPrices.class);
-
-    private TextField url = new TextField("url");
-    private ComboBox<Country> countryComboBox = new ComboBox<>("Country");
+    private Grid infoGrid = new Grid<>(ProductInfo.class, false);
+    private Grid amazonPricesGrid = new Grid<>(AmazonPrices.class);
+    private Grid thirdPartPricesGrid = new Grid<>(ThirdPartPrices.class);
 
     ProductService service = ProductService.getInstance();
 
     private ProductForm form = new ProductForm(this);
-    Button getInfo = new Button("Get Info");
+    private AlertForm alertForm = new AlertForm(this);
+
+    Button getInfo = new Button("Get Price Info");
+    Button getPriceAlert = new Button("Get Price Alert");
 
 
     public MainView() {
-        add(new H1("AMAZON PRICE DROP APP"));
-
-        add(getInfo);
+        add(new H2("AMAZON PRICE DROP APP"));
 
         getInfo.addClickListener(e -> {
-            grid.asSingleSelect().clear();
-            form.setRequest(new Request());
+            infoGrid.asSingleSelect().clear();
+            form.setRequest(new PriceRequest());
         });
 
-        HorizontalLayout toolbar = new HorizontalLayout(getInfo);
-        HorizontalLayout mainContent = new HorizontalLayout(form,grid);
-        VerticalLayout verticalLayout = new VerticalLayout( new H5("This is the price charged for New products when Amazon itself is the seller"),grid2);
-        VerticalLayout verticalLayout2 = new VerticalLayout(new H5("This is the price charged by third party merchants for items in New condition"),grid3);
+        getPriceAlert.addClickListener(event -> {
+            infoGrid.asSingleSelect().clear();
+            alertForm.setAlertRequest(new AlertRequest());
+        });
+
+        HorizontalLayout toolbar = new HorizontalLayout(getInfo,getPriceAlert);
+        HorizontalLayout mainContent = new HorizontalLayout(form,alertForm, infoGrid);
+        H5 amazonPricesInfo = new H5("This is the price charged for New products when Amazon itself is the seller.");
+        H5 thirdPartPricesInfo = new H5("This is the price charged by third party merchants for items in New condition.");
+        thirdPartPricesInfo.setMinWidth(thirdPartPricesGrid.getWidth());
+
+        HorizontalLayout infoLayout = new HorizontalLayout(amazonPricesInfo, thirdPartPricesInfo);
+        HorizontalLayout pricesLayout = new HorizontalLayout(amazonPricesGrid, thirdPartPricesGrid);
         mainContent.setSizeFull();
-        verticalLayout.setSizeFull();
-        verticalLayout2.setSizeFull();
+        pricesLayout.setSizeFull();
+        infoLayout.setSizeFull();
 
-        grid.removeAllColumns();
-        grid.addColumn("title");
-        grid.addColumn("asin");
-        grid.addColumn("createdAt");
-        grid.addColumn("currencySymbol");
-        grid.getColumnByKey("title").setWidth("600px");
-        grid.getColumnByKey("currencySymbol").setWidth("40px");
+        infoGrid.removeAllColumns();
+        infoGrid.addColumn("title");
+        infoGrid.addColumn("createdAt");
+        infoGrid.addColumn("currencySymbol");
+        infoGrid.getColumnByKey("title").setWidth("400px");
+        infoGrid.getColumnByKey("currencySymbol").setWidth("40px");
+        infoGrid.getColumnByKey("currencySymbol").setHeader("Currency");
 
-        grid.setSizeFull();
-        grid2.setSizeFull();
-        grid3.setSizeFull();
 
-        add(toolbar, mainContent,verticalLayout,verticalLayout2);
-        //ukrywa formularz
+        amazonPricesGrid.removeAllColumns();
+        amazonPricesGrid.addColumn("currentPriceAmazon").setHeader("Current Price").setWidth("60px");
+        amazonPricesGrid.addColumn("highestPriceAmazon").setHeader("Highest Price").setWidth("60px");
+        amazonPricesGrid.addColumn("dateHighestPriceAmazon").setHeader("Date").setWidth("30px");
+        amazonPricesGrid.addColumn("lowestPricingAmazon").setHeader("Lowest Price").setWidth("50px");;
+        amazonPricesGrid.addColumn("dateLowestPricingAmazon").setHeader("Date").setWidth("30px");
+
+        thirdPartPricesGrid.removeAllColumns();
+        thirdPartPricesGrid.addColumn("currentPriceThirdPart").setHeader("Current Price New");
+        thirdPartPricesGrid.addColumn("highestPriceThirdPart").setHeader("Highest Price New");
+        thirdPartPricesGrid.addColumn("dateHighestPriceThirdPart").setHeader("Date");
+        thirdPartPricesGrid.addColumn("lowestPricingThirdPart").setHeader("Lowest Price New");
+        thirdPartPricesGrid.addColumn("dateLowestPricingThirdPart").setHeader("Date");
+
+        infoGrid.setSizeFull();
+        amazonPricesGrid.setSizeFull();
+        amazonPricesGrid.setMaxWidth("650px");
+        thirdPartPricesGrid.setSizeFull();
+
+        add(toolbar, mainContent, infoLayout, pricesLayout);
         form.setRequest(null);
+        alertForm.setAlertRequest(null);
         setSizeFull();
-
         refresh();
 
-        grid.asSingleSelect().addValueChangeListener(
+        infoGrid.asSingleSelect().addValueChangeListener(
                 event -> form.setRequest(
-                (Request) grid.asSingleSelect().getValue()));
+                (PriceRequest) infoGrid.asSingleSelect().getValue()));
+
+        infoGrid.asSingleSelect().addValueChangeListener(
+                event -> alertForm.setAlertRequest(
+                        (AlertRequest) infoGrid.asSingleSelect().getValue()));
+        Notification.show("Request sent!");
     }
 
     public void refresh() {
-        grid.setItems(service.getProductInfo());
-        grid2.setItems(service.getAmazonPrices());
-        grid3.setItems(service.getThirdPartPrices());
+        infoGrid.setItems(service.getProductInfo());
+        amazonPricesGrid.setItems(service.getAmazonPrices());
+        thirdPartPricesGrid.setItems(service.getThirdPartPrices());
     }
-
 }

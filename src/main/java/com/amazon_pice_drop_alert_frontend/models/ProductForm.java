@@ -15,8 +15,9 @@ public class ProductForm extends FormLayout {
 
     private TextField url = new TextField("AMAZON URL");
     private ComboBox<Country> countryType = new ComboBox<>("Country");
+
     private Button search = new Button("Get price history");
-    private final Binder<Request> binder = new Binder<>(Request.class);
+    private final Binder<PriceRequest> binder = new Binder<>(PriceRequest.class);
     private MainView mainView;
 
     private ProductService service = ProductService.getInstance();
@@ -33,16 +34,16 @@ public class ProductForm extends FormLayout {
     }
 
     private void search(){
-        Request request = binder.getBean();
-        service.sendRequestToBackend(request.getUrl(), request.getCountryType());
+        PriceRequest priceRequest = binder.getBean();
+        service.sendRequestToBackend(priceRequest.getUrl(), priceRequest.getCountryType());
         mainView.refresh();
         setRequest(null);
     }
 
-    public void setRequest(Request request) {
-        binder.setBean(request);
+    public void setRequest(PriceRequest priceRequest) {
+        binder.setBean(priceRequest);
 
-        if (request == null) {
+        if (priceRequest == null) {
             setVisible(false);
         } else {
             setVisible(true);

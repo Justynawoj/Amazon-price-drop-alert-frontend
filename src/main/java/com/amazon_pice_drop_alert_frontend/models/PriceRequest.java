@@ -1,16 +1,16 @@
 package com.amazon_pice_drop_alert_frontend.models;
 
-public class Request {
+public class PriceRequest {
 
     private String url;
     private Country countryType;
 
-    public Request(String url, Country countryType) {
+    public PriceRequest(String url, Country countryType) {
         this.url = url;
         this.countryType = countryType;
     }
 
-    public Request() {
+    public PriceRequest() {
     }
 
     public String getUrl() {
