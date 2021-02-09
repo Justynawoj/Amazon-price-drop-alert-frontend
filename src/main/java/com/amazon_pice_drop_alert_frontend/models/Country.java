@@ -1,11 +1,10 @@
 package com.amazon_pice_drop_alert_frontend.models;
 
 public enum Country {
+    AE,
+    AU,
     BR,
     CA,
-    MX,
-    US,
-    AE,
     DE,
     EG,
     ES,
@@ -13,11 +12,12 @@ public enum Country {
     GB,
     IN,
     IT,
+    JP,
+    MX,
     NL,
     SA,
     SE,
-    TR,
     SG,
-    AU,
-    JP
+    TR,
+    US
 }

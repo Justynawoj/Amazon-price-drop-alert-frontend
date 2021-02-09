@@ -7,33 +7,32 @@ import org.springframework.web.client.RestTemplate;
 public class ProductService {
 
     private static final String PRODUCT_URL = MainView.BACKEND_URL + "/v1/price";
+    private static final String REQUEST_URL = MainView.BACKEND_URL + "v1/request";
     private static ProductService productService;
-    private RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate = new RestTemplate();
     private ProductDetailsDto productDetailsDto = new ProductDetailsDto();
 
-    private ProductInfo productInfo = new ProductInfo();
-    private AmazonPrices amazonPrices = new AmazonPrices();
-    private ThirdPartPrices thirdPartPrices = new ThirdPartPrices();
+    private final ProductInfo productInfo = new ProductInfo();
+    private final AmazonPrices amazonPrices = new AmazonPrices();
+    private final ThirdPartPrices thirdPartPrices = new ThirdPartPrices();
 
-    public static ProductService getInstance(){
-        if (productService == null){
+    public static ProductService getInstance() {
+        if (productService == null) {
             productService = new ProductService();
         }
         return productService;
     }
 
-    public void sendRequestToBackend(String amazonUrl, Country country){
+    public void sendRequestToBackend(String amazonUrl, Country country) {
 
         String url = PRODUCT_URL + "?url=" + amazonUrl + "&country=" + country;
         productDetailsDto = restTemplate.getForObject(url, ProductDetailsDto.class);
         mapProductDetailsDto(productDetailsDto);
     }
 
-    public void sendAlertRequestToBackend(AlertRequest alertRequest){
-      //  String url = "http://localhost:8080/v1/request?url=" +amazonUrl+"&country="+country+"&price="+price+"&email="+email;
-        String url = "http://localhost:8080/v1/request";
-        restTemplate.postForObject(url,alertRequest,AlertRequest.class);
+    public void sendAlertRequestToBackend(AlertRequestDto alertRequestDto) {
 
+        restTemplate.postForObject(REQUEST_URL, alertRequestDto, AlertRequestDto.class);
     }
 
     public ProductDetailsDto getProductDetailsDto() {
@@ -60,56 +59,49 @@ public class ProductService {
         productInfo.setTitle(productDetailsDto.getTitle());
 
 
-
-        if(productDetailsDto.getCurrentPriceAmazon().getPrice() == 0.0){
+        if (productDetailsDto.getCurrentPriceAmazon().getPrice() == 0.0) {
             amazonPrices.setCurrentPriceAmazon(null);
             amazonPrices.setDateCurrentPrice(null);
-        }
-        else {
+        } else {
             amazonPrices.setCurrentPriceAmazon(productDetailsDto.getCurrentPriceAmazon().getPrice());
             amazonPrices.setDateCurrentPrice(productDetailsDto.getCurrentPriceAmazon().getCreatedAt());
         }
 
-        if(productDetailsDto.getHighestPriceAmazon().getPrice()== 0.0){
+        if (productDetailsDto.getHighestPriceAmazon().getPrice() == 0.0) {
             amazonPrices.setHighestPriceAmazon(null);
             amazonPrices.setDateHighestPriceAmazon(null);
-        }
-        else {
+        } else {
             amazonPrices.setHighestPriceAmazon(productDetailsDto.getHighestPriceAmazon().getPrice());
             amazonPrices.setDateHighestPriceAmazon(productDetailsDto.getHighestPriceAmazon().getCreatedAt());
         }
 
-        if(productDetailsDto.getLowestPricingAmazon().getPrice() ==0.0){
+        if (productDetailsDto.getLowestPricingAmazon().getPrice() == 0.0) {
             amazonPrices.setLowestPricingAmazon(null);
             amazonPrices.setDateLowestPricingAmazon(null);
-        }
-        else {
+        } else {
             amazonPrices.setLowestPricingAmazon(productDetailsDto.getLowestPricingAmazon().getPrice());
             amazonPrices.setDateLowestPricingAmazon(productDetailsDto.getLowestPricingAmazon().getCreatedAt());
         }
 
-        if(productDetailsDto.getHighestPriceThirdPart().getPrice() == 0.0){
+        if (productDetailsDto.getHighestPriceThirdPart().getPrice() == 0.0) {
             thirdPartPrices.setHighestPriceThirdPart(null);
             thirdPartPrices.setDateHighestPriceThirdPart(null);
-        }
-        else {
+        } else {
             thirdPartPrices.setDateHighestPriceThirdPart(productDetailsDto.getHighestPriceThirdPart().getCreatedAt());
             thirdPartPrices.setHighestPriceThirdPart(productDetailsDto.getHighestPriceThirdPart().getPrice());
         }
 
-        if(productDetailsDto.getCurrentPriceThirdPart().getPrice() == 0.0){
+        if (productDetailsDto.getCurrentPriceThirdPart().getPrice() == 0.0) {
             thirdPartPrices.setCurrentPriceThirdPart(null);
             thirdPartPrices.setDateCurrentPriceThirdPart(null);
-        }
-        else {
+        } else {
             thirdPartPrices.setCurrentPriceThirdPart(productDetailsDto.getCurrentPriceThirdPart().getPrice());
             thirdPartPrices.setDateCurrentPriceThirdPart(productDetailsDto.getCurrentPriceThirdPart().getCreatedAt());
         }
-        if(productDetailsDto.getLowestPricingThirdPart().getPrice()==0.0){
+        if (productDetailsDto.getLowestPricingThirdPart().getPrice() == 0.0) {
             thirdPartPrices.setLowestPricingThirdPart(null);
             thirdPartPrices.setDateLowestPricingThirdPart(null);
-        }
-        else {
+        } else {
             thirdPartPrices.setLowestPricingThirdPart(productDetailsDto.getLowestPricingThirdPart().getPrice());
             thirdPartPrices.setDateLowestPricingThirdPart(productDetailsDto.getLowestPricingThirdPart().getCreatedAt());
         }
