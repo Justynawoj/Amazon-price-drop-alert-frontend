@@ -17,12 +17,12 @@ public class ProductForm extends FormLayout {
     private ComboBox<Country> countryType = new ComboBox<>("Country");
 
     private Button search = new Button("Get price history");
-    private final Binder<PriceRequest> binder = new Binder<>(PriceRequest.class);
+    private final Binder<PriceRequestDto> binder = new Binder<>(PriceRequestDto.class);
     private MainView mainView;
 
     private ProductService service = ProductService.getInstance();
 
-    public ProductForm (MainView mainView){
+    public ProductForm(MainView mainView) {
         this.mainView = mainView;
         countryType.setItems(Country.values());
         HorizontalLayout buttons = new HorizontalLayout(search);
@@ -33,17 +33,17 @@ public class ProductForm extends FormLayout {
         search.addClickListener(event -> search());
     }
 
-    private void search(){
-        PriceRequest priceRequest = binder.getBean();
-        service.sendRequestToBackend(priceRequest.getUrl(), priceRequest.getCountryType());
+    private void search() {
+        PriceRequestDto priceRequestDto = binder.getBean();
+        service.sendRequestToBackend(priceRequestDto.getUrl(), priceRequestDto.getCountryType());
         mainView.refresh();
         setRequest(null);
     }
 
-    public void setRequest(PriceRequest priceRequest) {
-        binder.setBean(priceRequest);
+    public void setRequest(PriceRequestDto priceRequestDto) {
+        binder.setBean(priceRequestDto);
 
-        if (priceRequest == null) {
+        if (priceRequestDto == null) {
             setVisible(false);
         } else {
             setVisible(true);

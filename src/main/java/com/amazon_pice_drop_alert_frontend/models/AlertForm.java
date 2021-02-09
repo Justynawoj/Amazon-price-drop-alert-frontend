@@ -18,7 +18,7 @@ public class AlertForm extends FormLayout {
     private TextField email = new TextField("Email");
 
     Button getAlertButton = new Button("Get price alert");
-    private final Binder<AlertRequest> binder = new Binder<>(AlertRequest.class);
+    private final Binder<AlertRequestDto> binder = new Binder<>(AlertRequestDto.class);
 
     private MainView mainView;
 
@@ -36,16 +36,16 @@ public class AlertForm extends FormLayout {
     }
 
     private void sendAlertRequest() {
-        AlertRequest alertRequest = binder.getBean();
-        service.sendAlertRequestToBackend(alertRequest);
+        AlertRequestDto alertRequestDto = binder.getBean();
+        service.sendAlertRequestToBackend(alertRequestDto);
         setAlertRequest(null);
 
     }
 
-    public void setAlertRequest(AlertRequest alertRequest) {
-        binder.setBean(alertRequest);
+    public void setAlertRequest(AlertRequestDto alertRequestDto) {
+        binder.setBean(alertRequestDto);
 
-        if (alertRequest == null) {
+        if (alertRequestDto == null) {
             setVisible(false);
         } else {
             setVisible(true);

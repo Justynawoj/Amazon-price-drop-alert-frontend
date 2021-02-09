@@ -11,7 +11,6 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 
-
 @Route
 public class MainView extends VerticalLayout {
 
@@ -22,28 +21,27 @@ public class MainView extends VerticalLayout {
 
     ProductService service = ProductService.getInstance();
 
-    private ProductForm form = new ProductForm(this);
-    private AlertForm alertForm = new AlertForm(this);
+    private final ProductForm form = new ProductForm(this);
+    private final AlertForm alertForm = new AlertForm(this);
 
     Button getInfo = new Button("Get Price Info");
     Button getPriceAlert = new Button("Get Price Alert");
-
 
     public MainView() {
         add(new H2("AMAZON PRICE DROP APP"));
 
         getInfo.addClickListener(e -> {
             infoGrid.asSingleSelect().clear();
-            form.setRequest(new PriceRequest());
+            form.setRequest(new PriceRequestDto());
         });
 
         getPriceAlert.addClickListener(event -> {
             infoGrid.asSingleSelect().clear();
-            alertForm.setAlertRequest(new AlertRequest());
+            alertForm.setAlertRequest(new AlertRequestDto());
         });
 
-        HorizontalLayout toolbar = new HorizontalLayout(getInfo,getPriceAlert);
-        HorizontalLayout mainContent = new HorizontalLayout(form,alertForm, infoGrid);
+        HorizontalLayout toolbar = new HorizontalLayout(getInfo, getPriceAlert);
+        HorizontalLayout mainContent = new HorizontalLayout(form, alertForm, infoGrid);
         H5 amazonPricesInfo = new H5("This is the price charged for New products when Amazon itself is the seller.");
         H5 thirdPartPricesInfo = new H5("This is the price charged by third party merchants for items in New condition.");
         thirdPartPricesInfo.setMinWidth(thirdPartPricesGrid.getWidth());
@@ -62,12 +60,11 @@ public class MainView extends VerticalLayout {
         infoGrid.getColumnByKey("currencySymbol").setWidth("40px");
         infoGrid.getColumnByKey("currencySymbol").setHeader("Currency");
 
-
         amazonPricesGrid.removeAllColumns();
         amazonPricesGrid.addColumn("currentPriceAmazon").setHeader("Current Price").setWidth("60px");
         amazonPricesGrid.addColumn("highestPriceAmazon").setHeader("Highest Price").setWidth("60px");
         amazonPricesGrid.addColumn("dateHighestPriceAmazon").setHeader("Date").setWidth("30px");
-        amazonPricesGrid.addColumn("lowestPricingAmazon").setHeader("Lowest Price").setWidth("50px");;
+        amazonPricesGrid.addColumn("lowestPricingAmazon").setHeader("Lowest Price").setWidth("50px");
         amazonPricesGrid.addColumn("dateLowestPricingAmazon").setHeader("Date").setWidth("30px");
 
         thirdPartPricesGrid.removeAllColumns();
@@ -90,11 +87,11 @@ public class MainView extends VerticalLayout {
 
         infoGrid.asSingleSelect().addValueChangeListener(
                 event -> form.setRequest(
-                (PriceRequest) infoGrid.asSingleSelect().getValue()));
+                        (PriceRequestDto) infoGrid.asSingleSelect().getValue()));
 
         infoGrid.asSingleSelect().addValueChangeListener(
                 event -> alertForm.setAlertRequest(
-                        (AlertRequest) infoGrid.asSingleSelect().getValue()));
+                        (AlertRequestDto) infoGrid.asSingleSelect().getValue()));
         Notification.show("Request sent!");
     }
 

@@ -1,16 +1,16 @@
 package com.amazon_pice_drop_alert_frontend.models;
 
-public class AlertRequest {
+public class AlertRequestDto {
 
     private String url;
     private Country country;
     private String requestedPrice;
     private String email;
 
-    public AlertRequest() {
+    public AlertRequestDto() {
     }
 
-    public AlertRequest(String url, Country country, String requestedPrice, String email) {
+    public AlertRequestDto(String url, Country country, String requestedPrice, String email) {
         this.url = url;
         this.country = country;
         this.requestedPrice = requestedPrice;
