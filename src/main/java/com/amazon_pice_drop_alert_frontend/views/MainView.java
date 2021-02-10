@@ -42,11 +42,10 @@ public class MainView extends VerticalLayout {
 
         HorizontalLayout toolbar = new HorizontalLayout(getInfo, getPriceAlert);
         HorizontalLayout mainContent = new HorizontalLayout(form, alertForm, infoGrid);
-        H5 amazonPricesInfo = new H5("This is the price charged for New products when Amazon itself is the seller.");
-        H5 thirdPartPricesInfo = new H5("This is the price charged by third party merchants for items in New condition.");
-        thirdPartPricesInfo.setMinWidth(thirdPartPricesGrid.getWidth());
+        H5 amazonPricesInfo = new H5("The table on the left represents price charged for New products when Amazon itself is the seller. " +
+                "The table on the right represents price charged by third party merchants for items in New condition.");
 
-        HorizontalLayout infoLayout = new HorizontalLayout(amazonPricesInfo, thirdPartPricesInfo);
+        HorizontalLayout infoLayout = new HorizontalLayout(amazonPricesInfo);
         HorizontalLayout pricesLayout = new HorizontalLayout(amazonPricesGrid, thirdPartPricesGrid);
         mainContent.setSizeFull();
         pricesLayout.setSizeFull();
